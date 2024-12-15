@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import ICONS from "@/assets";
 import styled from "styled-components";
+import { zIndexValues } from "@/utils/style";
 
 const ImageLayer = styled.img`
   position: absolute;
@@ -16,6 +17,7 @@ const ImageLayer = styled.img`
   left: 42%;
   width: 16%;
   height: 72%;
+  z-index: ${zIndexValues.HEADER};
 `;
 
 const ImageArrows = styled.img`
