@@ -17,7 +17,7 @@ const ImageLayer = styled.img`
   left: 42%;
   width: 16%;
   height: 72%;
-  z-index: ${zIndexValues.HEADER};
+  // z-index: ${zIndexValues.ACTION_BUTTON};
 `;
 
 const ImageArrows = styled.img`
@@ -134,6 +134,7 @@ const PlayButton = ({ showSideView }) => {
       <ImageLayer
         src={showSideView ? ICONS.WATCH_BLACK_SIDE_VIEW : ICONS.BAND_1}
         alt="Apple Case Aluminum Black"
+        style={{ zIndex: showSideView ? 5 : 0 }}
       />
     </div>
   );
@@ -142,7 +143,6 @@ const PlayButton = ({ showSideView }) => {
 const CaseCarousel = ({ images, watchName }) => {
   const [currentSlide, setCurrentSlide] = useState(2);
   const [showSideView, setShowSideView] = useState(false);
-  console.log("watchName", showSideView);
   const handleClick = () => {
     setShowSideView(!showSideView);
   };

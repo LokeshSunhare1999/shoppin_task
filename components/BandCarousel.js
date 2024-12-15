@@ -145,7 +145,6 @@ const PlayButton = ({ showSideView }) => {
 const BandCarousel = ({ images, watchName }) => {
   const [currentSlide, setCurrentSlide] = useState(2);
   const [showSideView, setShowSideView] = useState(false);
-  console.log("watchName", showSideView);
   const handleClick = () => {
     setShowSideView(!showSideView);
   };
