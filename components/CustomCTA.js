@@ -1,11 +1,10 @@
-
-'use client'
-import React, { useRef } from 'react';
-import styled from 'styled-components';
-import * as palette from '../utils/style'
-import PropTypes from 'prop-types';
-import ICONS from '@/assets';
-import Image from 'next/image';
+"use client";
+import React, { useRef } from "react";
+import styled from "styled-components";
+import * as palette from "../utils/style";
+import PropTypes from "prop-types";
+import ICONS from "@/assets";
+import Image from "next/image";
 
 const P = styled.p`
   color: ${(props) => props.$color};
@@ -22,16 +21,16 @@ const Img = styled.img`
 `;
 const PrimaryCTA = styled.button`
   display: flex;
-  padding: ${(props) => props?.$padding ?? '10px 16px'};
+  padding: ${(props) => props?.$padding ?? "10px 16px"};
   align-items: center;
   gap: ${(props) => props.$gap};
-  border-radius: ${(props) => props?.$borderRadius ?? '10px'};
+  border-radius: ${(props) => props?.$borderRadius ?? "10px"};
   border: ${(props) => props.$border};
-  background: ${(props) => (props.disabled ? '#CDD4DF' : props.$bgColor)};
+  background: ${(props) => (props.disabled ? "#CDD4DF" : props.$bgColor)};
   justify-content: center;
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   opacity: ${(props) => props?.$opacity ?? 1};
-  width: ${(props) => props?.$buttonWidth ?? 'auto'};
+  width: ${(props) => props?.$buttonWidth ?? "auto"};
 `;
 
 const StyledInput = styled.input`
@@ -39,7 +38,7 @@ const StyledInput = styled.input`
 `;
 
 const CustomCTA = ({
-  type = 'button',
+  type = "button",
   title,
   onClick,
   showIcon = false,
@@ -48,20 +47,20 @@ const CustomCTA = ({
   border,
   isPermitted = true,
   fontSize = palette.FONTSIZE_16,
-  fontWeight = '400',
+  fontWeight = "400",
   url = ICONS,
   disabled = false,
-  width = '14px',
-  height = '14px',
-  gap = '16px',
+  width = "14px",
+  height = "14px",
+  gap = "16px",
   isInput = false,
   acceptType,
   handleInputChange,
   isLoading = false,
-  loadingColor = '#ffffff',
+  loadingColor = "#ffffff",
   opacity = 1,
-  buttonWidth = 'auto',
-  padding = '10px 16px',
+  buttonWidth = "auto",
+  padding = "10px 16px",
   borderRadius,
 }) => {
   const hiddenFileInput = useRef(null);
@@ -93,24 +92,20 @@ const CustomCTA = ({
       $padding={padding}
       $borderRadius={borderRadius}
     >
-      {isLoading ? (
-        <CircularProgress sx={{ color: loadingColor }} size={24} />
-      ) : (
-        <>
-          {showIcon && (
-            <Image src={url} alt="plus" width={width} height={height} />
-          )}
-          <P $color={color} $fontSize={fontSize} $fontWeight={fontWeight}>
-            {title}
-          </P>
-          <StyledInput
-            type="file"
-            onChange={(e) => handleInputChange(e)}
-            ref={hiddenFileInput}
-            accept={acceptType}
-          />
-        </>
-      )}
+      <>
+        {showIcon && (
+          <Image src={url} alt="plus" width={width} height={height} />
+        )}
+        <P $color={color} $fontSize={fontSize} $fontWeight={fontWeight}>
+          {title}
+        </P>
+        <StyledInput
+          type="file"
+          onChange={(e) => handleInputChange(e)}
+          ref={hiddenFileInput}
+          accept={acceptType}
+        />
+      </>
     </PrimaryCTA>
   );
 };
