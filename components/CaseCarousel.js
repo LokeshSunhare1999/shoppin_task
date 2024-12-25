@@ -13,10 +13,10 @@ import { zIndexValues } from "@/utils/style";
 const ImageLayer = styled.img`
   position: absolute;
   display: flex;
-  top: 0px;
-  left: 42%;
-  width: 16%;
-  height: 72%;
+  top: -8px;
+  left: 40%;
+  width: 20%;
+  height: 76%;
   // z-index: ${zIndexValues.ACTION_BUTTON};
 `;
 
@@ -140,13 +140,12 @@ const PlayButton = ({ showSideView }) => {
   );
 };
 
-const CaseCarousel = ({ images, watchName }) => {
+const CaseCarousel = ({ images, watchName, descriptionContainer }) => {
   const [currentSlide, setCurrentSlide] = useState(2);
   const [showSideView, setShowSideView] = useState(false);
   const handleClick = () => {
     setShowSideView(!showSideView);
   };
-
   return (
     <div className="mt-6 p-2 w-full h-full">
       <div className="mt-4 w-full relative">
@@ -167,23 +166,25 @@ const CaseCarousel = ({ images, watchName }) => {
             </div>
           ))}
         </CarouselContainer>
-        <DescriptionContainer>
-          <SideViewDisplay
-            style={{ color: "#06c", fontWeight: 600 }}
-            onClick={() => handleClick()}
-          >
-            {showSideView ? <u> Front view</u> : <u> Side view </u>}
-          </SideViewDisplay>
-          <WatchNameDisplay>
-            {watchName ?? "No Name Available"}
-          </WatchNameDisplay>
-          <DescriptionDisplay>
-            {images[currentSlide]?.description || "No Name Available"}
-          </DescriptionDisplay>
-          <PriceDisplay>
-            From $ {images[currentSlide]?.price || "No Name Available"}
-          </PriceDisplay>
-        </DescriptionContainer>
+        {/* {descriptionContainer ? */}
+          <DescriptionContainer>
+            <SideViewDisplay
+              style={{ color: "#06c", fontWeight: 600 }}
+              onClick={() => handleClick()}
+            >
+              {showSideView ? <u> Front view</u> : <u> Side view </u>}
+            </SideViewDisplay>
+            <WatchNameDisplay>
+              {watchName ?? "No Name Available"}
+            </WatchNameDisplay>
+            <DescriptionDisplay>
+              {images[currentSlide]?.description || "No Name Available"}
+            </DescriptionDisplay>
+            <PriceDisplay>
+              From $ {images[currentSlide]?.price || "No Name Available"}
+            </PriceDisplay>
+          </DescriptionContainer> 
+          {/* : ""} */}
       </div>
     </div>
   );

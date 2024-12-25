@@ -87,7 +87,7 @@ const Header = ({ actionOpen, setActionOpen, arrBtn, animate, setVisibleCarousel
     setSelectedCollection(value);
     setTimeout(() => {
       setdescriptionContainer(true)
-    }, 3600);
+    }, 2000);
   };
 
   const handleClick = () => {

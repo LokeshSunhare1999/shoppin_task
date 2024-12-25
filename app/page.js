@@ -330,6 +330,7 @@ export default function Home() {
               watchName={watchName}
               setShowSideView={setShowSideView}
               showSideView={showSideView}
+              descriptionContainer={descriptionContainer}
             />
           </motion.div>
         )}
@@ -342,7 +343,7 @@ export default function Home() {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
           >
-            <CaseCarousel images={casesData} watchName={watchName} />
+            <CaseCarousel images={casesData} watchName={watchName} descriptionContainer={descriptionContainer}/>
           </motion.div>
         )}
 
@@ -358,7 +359,7 @@ export default function Home() {
           </motion.div>
         )}
 
-        {animate && (
+        {animate ? (
           <motion.div
             className="box"
             initial={{ opacity: 0, y: 50 }}
@@ -366,9 +367,8 @@ export default function Home() {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 2, ease: "easeInOut" }}
           >
-            {descriptionContainer && (
+            {descriptionContainer ? (
               <DescriptionContainer style={{ position: "absolute", width: "100vw" }}>
-
                 <AnimatePresence mode="wait">
                   <FadeWrapper
                     key={watchName}
@@ -395,7 +395,7 @@ export default function Home() {
                   </FadeWrapper>
                 </AnimatePresence>
               </DescriptionContainer>
-            )}
+            ): ""}
 
             <ButtonComponent>
               <CustomCTA
@@ -436,7 +436,7 @@ export default function Home() {
               />
             </ButtonComponent>
           </motion.div>
-        )}
+        ): ""}
       </Wrapper>
     </>
   );
