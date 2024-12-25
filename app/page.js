@@ -6,14 +6,43 @@ import CustomCTA from "@/components/CustomCTA";
 import Header from "@/components/header";
 import { useState } from "react";
 import styled from "styled-components";
-import { motion } from "motion/react";
-import BandCarousel from "@/components/BandCarousel";
-import { bandData, casesData, sizeData } from "@/utils/contantData";
+import { motion, AnimatePresence } from "motion/react";
+import BandCarousel, {
+  DescriptionDisplay,
+  PriceDisplay,
+  SideViewDisplay,
+  WatchNameDisplay
+} from "@/components/BandCarousel";
+import { bandData, casesData, collectionData, sizeData } from "@/utils/contantData";
 import bandICon from "../assets/band.svg";
 import caseIcon from "../assets/case.svg";
 import sizeIcon from "../assets/size.svg";
 import CaseCarousel from "@/components/CaseCarousel";
 import SizeCarousel from "@/components/SizeCarousel";
+
+export const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  top: 29rem;
+  @media (min-width: 1024px, max-width: 1205px) {
+    margin-top: 210px;
+    top: 16rem;
+  }
+  @media (max-width: 1024px) {
+    margin-top: 210px;
+    top: 29rem;
+  }
+  @media (max-width: 768px) {
+    margin-top: -110px;
+    top: 29rem;
+  }
+  @media (max-width: 480px) {
+    margin-top: -110px;
+    top: 29rem;
+  }
+`;
+
 
 const Wrapper = styled.section`
   display: flex;
@@ -22,6 +51,7 @@ const Wrapper = styled.section`
   justify-content: center;
   font-family: sans-serif;
   text-align: left;
+  white-space: nowrap;
   // padding: 50px 150px 0px 150px;
 `;
 
@@ -32,15 +62,18 @@ const WrapperText = styled.section`
   justify-content: center;
   font-family: sans-serif;
   text-align: left;
-  padding: 20px 150px 0px 335px;
+  padding: 58px 0px 0px 407px;
   margin-bottom: -5px @media (max-width: 1200px) {
-    padding: 120px 150px 0px 150px;
+    padding: 120px 0px 0px 150px;
+  }
+  @media (max-width: 1024px) {
+    padding: 120px 0px 0px 100px;
   }
   @media (max-width: 768px) {
-    padding: 120px 100px 0px 100px;
+    padding: 120px 0px 0px 100px;
   }
   @media (max-width: 480px) {
-    padding: 40px;
+    padding: 40px 0px 40px 40px;
   }
 `;
 
@@ -78,7 +111,7 @@ const ImageWrapper = styled.section`
   position: relative;
   width: 723px;
   height: 723px;
-  margin: 50px auto;
+  margin: -98px auto;
 
   @media (max-width: 1200px) {
     width: 723px;
@@ -88,10 +121,10 @@ const ImageWrapper = styled.section`
   @media (max-width: 768px) {
     width: 423px;
     height: 423px;
-    margin: 100px auto;
+    margin: 50px auto;
   }
   @media (max-width: 480px) {
-    margin-top: 75px;
+    margin: 50px auto;
     width: 323px;
     height: 323px;
   }
@@ -107,7 +140,8 @@ const ImageLayer = styled.img`
 `;
 
 const ButtonComponent = styled.section`
-  position: fixed;
+  // position: fixed;
+  margin: 0 10px;
   top: 87%;
   left: 37%;
   display: flex;
@@ -117,12 +151,21 @@ const ButtonComponent = styled.section`
   gap: 18px;
 `;
 
+const FadeWrapper = styled(motion.div)`
+  width: 100%;
+  text-align: center;
+`;
+
 export default function Home() {
   const [actionOpen, setActionOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [visibleCarousel, setVisibleCarousel] = useState("");
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [watchName, setWatchName] = useState("Apple Watch Series 10");
+  const [showSideView, setShowSideView] = useState(false);
+  const [descriptionContainer, setdescriptionContainer] = useState(true);
+
+
 
   const handleSetName = (text) => {
     setWatchName(text);
@@ -164,8 +207,8 @@ export default function Home() {
 
   const handleShowBands = (text) => {
     setVisibleCarousel(text);
+    setdescriptionContainer(false);
   };
-
   return (
     <>
       <Header
@@ -173,6 +216,8 @@ export default function Home() {
         animate={animate}
         arrBtn={arrBtn}
         setActionOpen={setActionOpen}
+        setVisibleCarousel={setVisibleCarousel}
+        setdescriptionContainer={setdescriptionContainer}
       />
       <Wrapper>
         {!animate && (
@@ -199,36 +244,80 @@ export default function Home() {
 
         {visibleCarousel === "" && (
           <motion.div
-            className="box"
+            className="box relative"
             whileHover="hover"
-            animate={animate ? { y: -220, scale: 0.5 } : { y: 0, scale: 1 }}
+            animate={animate ? { y: -120, scale: 0.5 } : { y: 0, scale: 1 }}
             transition={{ duration: 2, ease: "easeInOut" }}
           >
-            <ImageWrapper>
-              <div>
-                <ImageLayer
+            <AnimatePresence mode="wait">
+              <FadeWrapper
+                key={watchName}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <ImageWrapper className="relative">
+                  <div>
+                    {/* <ImageLayer
                   src={bandData[carouselIndex]}
-                  alt={`Carousel Image ${carouselIndex}`}
-                />
-              </div>
-              {ICONS.BAND_1 && (
-                <ImageLayer
-                  src={ICONS.BAND_1}
-                  alt="Apple Case Aluminum Black"
-                  style={{ zIndex: 1 }}
-                />
-              )}
-              {ICONS.APPLE_CASE_ALUMINUM_BLACK && (
-                <ImageLayer
-                  src={ICONS.APPLE_CASE_ALUMINUM_BLACK}
-                  alt="Apple Case Aluminum Black"
-                  style={{ zIndex: 1 }}
-                />
-              )}
-            </ImageWrapper>
+                  alt={`fffff`}
+                /> */}
+                  </div>
+
+                  {ICONS.BAND_1 && (
+                    <motion.div
+                      initial={animate && { x: "40%" }}
+                      animate={animate && { x: 0 }}
+                      transition={animate && {
+                        duration: 0.8,
+                        delay: 0,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        zIndex: 1
+                      }}
+                    >
+                      <ImageLayer
+                        src={collectionData[watchName]?.bandSrcFront || ICONS.BAND_1}
+                        alt="Watch Band"
+                      />
+                    </motion.div>
+                  )}
+
+                  {/* Watch Dial (Now with higher z-index) */}
+                  {ICONS.APPLE_CASE_ALUMINUM_BLACK && (
+                    <div style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      zIndex: 2
+                    }}>
+                      <ImageLayer
+                        src={
+                          showSideView
+                            ? collectionData[watchName]?.watchsideview || ICONS.WATCH_BLACK_SIDE_VIEW
+                            : collectionData[watchName]?.dialsrcFront || ICONS.APPLE_CASE_ALUMINUM_BLACK
+                        }
+                        alt="Apple Case Aluminum Black"
+                      />
+                    </div>
+                  )}
+                </ImageWrapper>
+              </FadeWrapper>
+            </AnimatePresence>
           </motion.div>
-        )}
-        {visibleCarousel === "Band" ? (
+        )
+        }
+
+        {visibleCarousel === "Band" && (
           <motion.div
             className="box"
             initial={{ opacity: 0, y: 50 }}
@@ -236,10 +325,16 @@ export default function Home() {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
           >
-            <BandCarousel images={bandData} watchName={watchName} />
+            <BandCarousel
+              images={bandData}
+              watchName={watchName}
+              setShowSideView={setShowSideView}
+              showSideView={showSideView}
+            />
           </motion.div>
-        ) : null}
-        {visibleCarousel === "Case" ? (
+        )}
+
+        {visibleCarousel === "Case" && (
           <motion.div
             className="box"
             initial={{ opacity: 0, y: 50 }}
@@ -249,8 +344,9 @@ export default function Home() {
           >
             <CaseCarousel images={casesData} watchName={watchName} />
           </motion.div>
-        ) : null}
-        {visibleCarousel === "Size" ? (
+        )}
+
+        {visibleCarousel === "Size" && (
           <motion.div
             className="box"
             initial={{ opacity: 0, y: 50 }}
@@ -260,7 +356,8 @@ export default function Home() {
           >
             <SizeCarousel images={sizeData} watchName={watchName} />
           </motion.div>
-        ) : null}
+        )}
+
         {animate && (
           <motion.div
             className="box"
@@ -269,6 +366,37 @@ export default function Home() {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 2, ease: "easeInOut" }}
           >
+            {descriptionContainer && (
+              <DescriptionContainer style={{ position: "absolute", width: "100vw" }}>
+
+                <AnimatePresence mode="wait">
+                  <FadeWrapper
+                    key={watchName}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <SideViewDisplay
+                      style={{ color: "#06c", fontWeight: 600 }}
+                      onClick={() => setShowSideView(!showSideView)}
+                    >
+                      {showSideView ? <u>Front view</u> : <u>Side view</u>}
+                    </SideViewDisplay>
+                    <WatchNameDisplay>
+                      {watchName}
+                    </WatchNameDisplay>
+                    <DescriptionDisplay>
+                      {collectionData[watchName]?.description || "No description available"}
+                    </DescriptionDisplay>
+                    <PriceDisplay>
+                      From ${collectionData[watchName]?.price || "N/A"}
+                    </PriceDisplay>
+                  </FadeWrapper>
+                </AnimatePresence>
+              </DescriptionContainer>
+            )}
+
             <ButtonComponent>
               <CustomCTA
                 title="Size"

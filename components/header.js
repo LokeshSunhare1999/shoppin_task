@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ICONS from "../assets/index";
 import { zIndexValues } from "../utils/style";
@@ -9,8 +9,10 @@ import ActionButton from "./ActionButton";
 import CustomCTA from "./CustomCTA";
 import { useRouter } from "next/navigation";
 
+const OuterWrapper = styled.div`
+  z-index: ${zIndexValues.HEADER};
+`
 const Wrapper = styled.section`
-  // position: fixed;
   top: 0;
   z-index: ${zIndexValues.HEADER};
   height: 61px;
@@ -18,12 +20,10 @@ const Wrapper = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px;
 `;
 
 const Left = styled.div`
-  margin: 29px 0px 0px 34px;
-  // padding: 0px 20px
+  margin: 26px 0px 0px 34px;
 `;
 const Right = styled.div`
   padding: 25px 35px 5px 0px;
@@ -34,9 +34,15 @@ const Profile = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  z-index: ${zIndexValues.HEADER};
   justify-content: flex-start;
-  padding: 25px 10px 5px 10px;
+  padding: 25px 20px 5px 0px;
   gap: 16px;
+
+  @media (max-width: 480px) {
+    padding: 25px 5px 5px 0px;
+     justify-content: space-between;
+  }
 `;
 const ViewRight = styled.div`
   display: flex;
@@ -68,17 +74,27 @@ const Overlay = styled.div`
   display: ${(props) => (props.visible == "true" ? "block" : "none")};
 `;
 
-const Header = ({ actionOpen, setActionOpen, arrBtn, animate }) => {
+const Header = ({ actionOpen, setActionOpen, arrBtn, animate, setVisibleCarousel, setdescriptionContainer }) => {
   const router = useRouter();
+  const [selectedCollection, setSelectedCollection] = useState('Apple Watch Series 10');
+
   const handleActionClick = () => {
     setActionOpen(!actionOpen);
+  };
+
+  const handleSelect = (value) => {
+    setVisibleCarousel("")
+    setSelectedCollection(value);
+    setTimeout(() => {
+      setdescriptionContainer(true)
+    }, 3600);
   };
 
   const handleClick = () => {
     router.push(ICONS.PRODUCT_PAGE);
   };
   return (
-    <>
+    <OuterWrapper>
       <Overlay
         visible={actionOpen.toString()}
         onClick={() => setActionOpen(false)}
@@ -103,7 +119,7 @@ const Header = ({ actionOpen, setActionOpen, arrBtn, animate }) => {
             >
               <Profile onClick={() => handleActionClick()}>
                 <ViewRight>
-                  <ViewLeft>Collections</ViewLeft>
+                  <ViewLeft>{"Collections"}</ViewLeft>
                   <Img
                     src={actionOpen ? ICONS?.ARROW_UP : ICONS?.ARROW_DOWN}
                     alt="arrowDown"
@@ -121,6 +137,8 @@ const Header = ({ actionOpen, setActionOpen, arrBtn, animate }) => {
                     top="60px"
                     left="-80px"
                     right="10px"
+                    selectedValue={selectedCollection}
+                    onSelect={handleSelect}
                   />
                 ) : null}
               </Profile>
@@ -148,7 +166,7 @@ const Header = ({ actionOpen, setActionOpen, arrBtn, animate }) => {
           </>
         )}
       </Wrapper>
-    </>
+    </OuterWrapper>
   );
 };
 

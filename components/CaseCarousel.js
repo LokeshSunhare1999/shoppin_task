@@ -155,7 +155,7 @@ const CaseCarousel = ({ images, watchName }) => {
           {images.map((item, idx) => (
             <div key={idx}>
               <div className="mx-12 box-border flex flex-col items-center gap-2">
-                <div className="relative w-[250px] h-[320px]">
+                <div className="relative w-[20rem] h-[320px]">
                   <Image
                     src={item?.img}
                     alt="housemaid"

@@ -118,3 +118,25 @@ export const casesData = [
     price: '429',
   },
 ];
+
+export const collectionData = {
+  "Apple Watch Series 10": {
+    description: "The most advanced Apple Watch with breakthrough health innovations.",
+    price: "399",
+
+  },
+  "Apple Watch Hermès Series 10": {
+    description: "A partnership of exquisite design and innovation.",
+    price: "1,499",
+    bandSrcFront : ICONS.HERMES_WATCH_BAND,
+    dialsrcFront : ICONS.HERMES_WATCH_DIAL,
+    watchsideview : ICONS.HERMES_WATCH_SIDEVIEW
+  },
+  "Apple Watch SE": {
+    description: "All the essentials at a more affordable price.",
+    price: "249",
+    bandSrcFront : ICONS.APPLE_WATCH_SE_BAND_F,
+    dialsrcFront : ICONS.APPLE_WATCH_SE_DIAL_F,
+    watchsideview : ICONS.APPLE_WATCH_SE_SIDEVIEW
+  },
+};

@@ -26,13 +26,13 @@ const ImageArrows = styled.img`
   height: 70%;
 `;
 
-const DescriptionContainer = styled.div`
+export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 15px;
 `;
 
-const WatchNameDisplay = styled.div`
+export const WatchNameDisplay = styled.div`
   font-family: sans-serif;
   margin-top: 4px;
   font-size: 14px;
@@ -42,7 +42,7 @@ const WatchNameDisplay = styled.div`
   text-transform: uppercase;
 `;
 
-const SideViewDisplay = styled.div`
+export const SideViewDisplay = styled.div`
   font-family: sans-serif;
   margin-top: 4px;
   font-size: 12px;
@@ -52,15 +52,16 @@ const SideViewDisplay = styled.div`
   cursor: pointer;
 `;
 
-const DescriptionDisplay = styled.div`
+export const DescriptionDisplay = styled.div`
   font-family: sans-serif;
   margin-top: 4px;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
   color: #1d1d1f;
+  white-space: normal;
 `;
-const PriceDisplay = styled.div`
+export const PriceDisplay = styled.div`
   font-family: sans-serif;
   margin-top: 4px;
   font-size: 14px;
@@ -142,9 +143,9 @@ const PlayButton = ({ showSideView }) => {
   );
 };
 
-const BandCarousel = ({ images, watchName }) => {
+const BandCarousel = ({ images, watchName, showSideView, setShowSideView }) => {
   const [currentSlide, setCurrentSlide] = useState(2);
-  const [showSideView, setShowSideView] = useState(false);
+  // const [showSideView, setShowSideView] = useState(false);
   const handleClick = () => {
     setShowSideView(!showSideView);
   };

@@ -5,6 +5,7 @@ import * as palette from "../utils/style";
 import PropTypes from "prop-types";
 import ICONS from "@/assets";
 import Image from "next/image";
+import { zIndexValues } from "../utils/style";
 
 const P = styled.p`
   color: ${(props) => props.$color};
@@ -31,6 +32,7 @@ const PrimaryCTA = styled.button`
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   opacity: ${(props) => props?.$opacity ?? 1};
   width: ${(props) => props?.$buttonWidth ?? "auto"};
+  z-index: ${zIndexValues.HEADER};
 `;
 
 const StyledInput = styled.input`

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { zIndexValues } from '../utils/style';
@@ -8,13 +8,17 @@ import PropTypes from 'prop-types';
 
 const P = styled.p`
   white-space: nowrap;
-  color: ${(props) => props?.$color};
+  color: ${(props) => (props.$isSelected ? 'gray' : props.$color)};
   font-family: sans-serif;
   text-align: center;
   font-size: ${(props) => (props?.$fontSize ? props.$fontSize : '14px')};
   font-style: normal;
-  font-weight: ${(props) => props?.$fontWeight};
+  // font-weight: ${(props) => (props.$isSelected ? '600' : props.$fontWeight)};
   line-height: ${(props) => props?.$lineHeight};
+  transition: color 0.2s ease;
+  &:hover {
+    color: ${(props) => (props.$isSelected ? 'gray' : '#1975D1')};
+  }
 `;
 
 const ViewRight = styled.div`
@@ -35,7 +39,6 @@ const ActionWrapper = styled.div`
   min-width: 200px;
   padding: 5px 12px;
   flex-direction: column;
-  // align-items: flex-start;
   gap: 4px;
   border-radius: 10px;
   background: #fff;
@@ -55,6 +58,8 @@ const BtnDiv = styled.div`
   gap: 16px;
   text-align: center;
   cursor: pointer;
+  background: ${(props) => (props.$isSelected ? 'transparent' : 'transparent')};
+  transition: background-color 0.2s ease;
 `;
 
 const Hr = styled.div`
@@ -80,8 +85,9 @@ const ActionButton = ({
   right,
   left,
   width,
+  selectedValue,
+  onSelect,
 }) => {
-  
   const hiddenFileInput = useRef(null);
 
   const handleInputBtnClick = (event) => {
@@ -98,6 +104,16 @@ const ActionButton = ({
     setActionOpen(false);
   };
 
+  const handleItemClick = (btn, index) => {
+    if (btn.type === 'input') {
+      handleInputBtnClick();
+    } else {
+      onSelect(btn.text);
+      btn.onClick && btn.onClick();
+      setActionOpen(false);
+    }
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <ActionWrapper
@@ -111,6 +127,8 @@ const ActionButton = ({
           if (btn.permission && !hasPermission(btn.permission)) {
             return null;
           }
+
+          const isSelected = selectedValue === btn.text;
 
           return (
             <ArrayDiv key={index}>
@@ -127,12 +145,9 @@ const ActionButton = ({
                   {index !== 0 ? <Hr /> : ''}
 
                   <BtnDiv
+                    $isSelected={isSelected}
                     $isCustomIcon={btn?.customIcon ? true : false}
-                    onClick={
-                      btn.type !== 'input'
-                        ? (e) => btn.onClick(e)
-                        : handleInputBtnClick
-                    }
+                    onClick={() => handleItemClick(btn, index)}
                   >
                     <ViewRight>
                       <P
@@ -140,6 +155,7 @@ const ActionButton = ({
                         $fontSize={fontSize}
                         $fontWeight={'400'}
                         $lineHeight={'normal'}
+                        $isSelected={isSelected}
                       >
                         {btn.text}
                       </P>
@@ -187,6 +203,8 @@ ActionButton.propTypes = {
   right: PropTypes.string,
   left: PropTypes.string,
   width: PropTypes.string,
+  selectedValue: PropTypes.string,
+  onSelect: PropTypes.func,
 };
 
 export default ActionButton;
